@@ -62,9 +62,8 @@ public class TaskManager {
 
     public String getSummary() {
         if (this.isNotDone()) {
-            long ETA = this.getETA();
             return String.format("ETA: %s",
-                       HumanReadableTime.getHumanReadableTimeFromMilliseconds(ETA));
+                       this.getHumanReadableETA());
         } else {
             long elapsedMilliseconds = this.getElapsedTime();
             return String.format("Done in %s",

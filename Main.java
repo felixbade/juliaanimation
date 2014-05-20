@@ -20,8 +20,8 @@ public class Main {
                 System.out.printf("\r\033[2KRendering frame %d/%d",
                         currentFrameNumber, lastFrameNumber);
             } else {
-                String ETA = manager.getSummary();
-                System.out.printf("\r\033[2KRendering frame %d/%d (%s)",
+                String ETA = manager.getHumanReadableETA();
+                System.out.printf("\r\033[2KRendering frame %d/%d (ETA: %s)",
                         currentFrameNumber, lastFrameNumber, ETA);
             }
             

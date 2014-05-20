@@ -1,4 +1,4 @@
-package julia8;
+package juliaanimation;
 
 public class TaskManager {
 

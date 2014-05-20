@@ -1,4 +1,4 @@
-package julia8;
+package juliaanimation;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,19 +13,15 @@ public class FractalImage {
     private static final int HEIGHT = 1080;
     private static final String FILE_NAME_PREFIX = "images/julia_fractal";
     private static final int MAX_ITERATIONS = 100;
-    private static final int ANTIALIAS_LEVEL = 3;
+    private static final int ANTIALIAS = 30;
 
     private BufferedImage image;
     private Graphics graphics;
     private int currentFrameNumber;
     private int totalFrames;
-    private int width;
-    private int height;
 
     public FractalImage() {
-        this.width = WIDTH * ANTIALIAS_LEVEL;
-        this.height = HEIGHT * ANTIALIAS_LEVEL;
-        this.image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
+        this.image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         this.graphics = image.createGraphics();
     }
 
@@ -52,24 +48,34 @@ public class FractalImage {
         double y1 = -1.0 / magnification;
         double y2 = 1.0 / magnification;
 
-        for (int y = 0; y < this.height; y++) {
-            for (int x = 0; x < this.width; x++) {
+        double pixelLength = (x2 - x1) / WIDTH;
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
                 
-                Color pixelColor = new Color(0, 0, 0);
-                double xr = x1 + (x2 - x1) * ((double) x / width);
-                double xi = y1 + (y2 - y1) * ((double) y / height);
-                for (int i = 0; i < MAX_ITERATIONS; i++) {
-                    double xrs = xr * xr;
-                    double xis = xi * xi;
-                    if (xrs + xis > 4) {
-                        int gradient = 255;//255 - i * 255 / MAX_ITERATIONS;
-                        pixelColor = new Color(gradient, gradient, gradient);
-                        break;
+                double xr_base = x1 + (x2 - x1) * ((double) x / WIDTH);
+                double xi_base = y1 + (y2 - y1) * ((double) y / HEIGHT);
+                int hitCount = 0;
+
+                // Sample random points inside the square of the pixel for the sake of simplicity
+                for (int a = 0; a < ANTIALIAS; a++) {
+                    double xr = xr_base + (Math.random() - 0.5) * pixelLength;
+                    double xi = xi_base + (Math.random() - 0.5) * pixelLength;
+
+                    for (int i = 0; i < MAX_ITERATIONS; i++) {
+                        double xrs = xr * xr;
+                        double xis = xi * xi;
+                        if (xrs + xis > 4) {
+                            hitCount++;
+                            break;
+                        }
+                        xi = 2 * xr * xi + ci;
+                        xr = xrs - xis + cr;
                     }
-                    xi = 2 * xr * xi + ci;
-                    xr = xrs - xis + cr;
                 }
-                this.graphics.setColor(pixelColor);
+                
+                int gradient = 255 * hitCount / ANTIALIAS;
+                this.graphics.setColor(new Color(gradient, gradient, gradient));
                 this.graphics.drawLine(x, y, x, y);
             }
         }

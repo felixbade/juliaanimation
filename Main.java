@@ -1,11 +1,11 @@
-package julia8;
+package juliaanimation;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        int durationInSeconds = 100;
-        int framerate = 25;
+        int durationInSeconds = 1;
+        int framerate = 5;
 
         int totalFrames = framerate * durationInSeconds;
         TaskManager manager = new TaskManager();

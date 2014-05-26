@@ -1,4 +1,4 @@
-package juliaanimation;
+package julia8;
 
 public class TaskManager {
 
@@ -7,7 +7,7 @@ public class TaskManager {
     private int numberOfTasksDone;
 
     public TaskManager() {
-        return;
+        this.startTime = System.currentTimeMillis();
     }
 
     public void setNumberOfTasksTotal(int numberOfTasksTotal) {
@@ -49,7 +49,10 @@ public class TaskManager {
     }
 
     public long getETA() {
-        return (long) (this.getElapsedTime() * this.getNumberOfTasksLeft() / this.getNumberOfTasksDone());
+        long elapsedTime = this.getElapsedTime();
+        int numberOfTasksLeft = this.getNumberOfTasksLeft();
+        int numberOfTasksDone = this.getNumberOfTasksDone();
+        return (int) (elapsedTime * numberOfTasksLeft / (numberOfTasksDone));
     }
 
     public String getHumanReadableETA() {

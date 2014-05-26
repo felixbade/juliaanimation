@@ -1,0 +1,530 @@
+JAVA PROFILE 1.0.1, created Tue May 20 12:56:47 2014
+
+Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+
+%W% %E%
+
+ Copyright (c) 2006 Sun Microsystems, Inc. All  Rights Reserved.
+
+WARNING!  This file format is under development, and is subject to
+change without notice.
+
+This file contains the following types of records:
+
+THREAD START
+THREAD END      mark the lifetime of Java threads
+
+TRACE           represents a Java stack trace.  Each trace consists
+                of a series of stack frames.  Other records refer to
+                TRACEs to identify (1) where object allocations have
+                taken place, (2) the frames in which GC roots were
+                found, and (3) frequently executed methods.
+
+HEAP DUMP       is a complete snapshot of all live objects in the Java
+                heap.  Following distinctions are made:
+
+                ROOT    root set as determined by GC
+                CLS     classes 
+                OBJ     instances
+                ARR     arrays
+
+SITES           is a sorted list of allocation sites.  This identifies
+                the most heavily allocated object types, and the TRACE
+                at which those allocations occurred.
+
+CPU SAMPLES     is a statistical profile of program execution.  The VM
+                periodically samples all running threads, and assigns
+                a quantum to active TRACEs in those threads.  Entries
+                in this record are TRACEs ranked by the percentage of
+                total quanta they consumed; top-ranked TRACEs are
+                typically hot spots in the program.
+
+CPU TIME        is a profile of program execution obtained by measuring
+                the time spent in individual methods (excluding the time
+                spent in callees), as well as by counting the number of
+                times each method is called. Entries in this record are
+                TRACEs ranked by the percentage of total CPU time. The
+                "count" field indicates the number of times each TRACE 
+                is invoked.
+
+MONITOR TIME    is a profile of monitor contention obtained by measuring
+                the time spent by a thread waiting to enter a monitor.
+                Entries in this record are TRACEs ranked by the percentage
+                of total monitor contention time and a brief description
+                of the monitor.  The "count" field indicates the number of 
+                times the monitor was contended at that TRACE.
+
+MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
+                the System.
+
+HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
+at program exit.  They can also be obtained during program execution by typing 
+Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+
+--------
+
+THREAD START (obj=50000158, id = 200001, name="main", group="main")
+THREAD START (obj=50000158, id = 200004, name="Thread-2", group="main")
+THREAD START (obj=50000158, id = 200005, name="AWT-Shutdown", group="main")
+THREAD START (obj=50000158, id = 200007, name="Java2D Disposer", group="system")
+THREAD END (id = 200005)
+THREAD START (obj=50000158, id = 200008, name="Thread-3", group="main")
+THREAD END (id = 200008)
+THREAD END (id = 200001)
+THREAD START (obj=50000158, id = 200009, name="DestroyJavaVM", group="main")
+THREAD START (obj=50000158, id = 200010, name="Thread-1", group="main")
+THREAD END (id = 200010)
+THREAD END (id = 200009)
+TRACE 300458:
+	sun.java2d.loops.DrawLine.DrawLine(DrawLine.java:Unknown line)
+	sun.java2d.pipe.LoopPipe.drawLine(LoopPipe.java:43)
+	sun.java2d.SunGraphics2D.drawLine(SunGraphics2D.java:2338)
+	julia8.FractalImage.render(FractalImage.java:74)
+TRACE 300550:
+	java.util.zip.Deflater.deflateBytes(Deflater.java:Unknown line)
+	java.util.zip.Deflater.deflate(Deflater.java:306)
+	com.sun.imageio.plugins.png.IDATOutputStream.deflate(PNGImageWriter.java:203)
+	com.sun.imageio.plugins.png.IDATOutputStream.write(PNGImageWriter.java:197)
+TRACE 300548:
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:872)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+	com.sun.imageio.plugins.png.PNGImageWriter.write(PNGImageWriter.java:1146)
+	javax.imageio.ImageWriter.write(ImageWriter.java:598)
+TRACE 300549:
+	java.awt.image.SinglePixelPackedSampleModel.getPixels(SinglePixelPackedSampleModel.java:476)
+	java.awt.image.Raster.getPixels(Raster.java:1580)
+	sun.awt.image.SunWritableRaster.getPixels(SunWritableRaster.java:252)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:812)
+TRACE 300459:
+	julia8.FractalImage.render(FractalImage.java:62)
+	julia8.Main.main(Main.java:29)
+TRACE 300328:
+	apple.awt.CGraphicsEnvironment.loadNativeDirFonts(CGraphicsEnvironment.java:Unknown line)
+	apple.awt.CGraphicsEnvironment.registerFontsInDir(CGraphicsEnvironment.java:144)
+	sun.java2d.SunGraphicsEnvironment$2.run(SunGraphicsEnvironment.java:226)
+	java.security.AccessController.doPrivileged(AccessController.java:Unknown line)
+TRACE 300546:
+	java.awt.image.SinglePixelPackedSampleModel.getPixels(SinglePixelPackedSampleModel.java:475)
+	java.awt.image.Raster.getPixels(Raster.java:1580)
+	sun.awt.image.SunWritableRaster.getPixels(SunWritableRaster.java:252)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:812)
+TRACE 300229:
+	java.lang.ClassLoader$NativeLibrary.load(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadLibrary0(ClassLoader.java:1833)
+	java.lang.ClassLoader.loadLibrary(ClassLoader.java:1730)
+	java.lang.Runtime.loadLibrary0(Runtime.java:823)
+TRACE 300545:
+	java.lang.System.arraycopy(System.java:Unknown line)
+	com.sun.imageio.plugins.png.RowFilter.filterRow(RowFilter.java:80)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:890)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+TRACE 300460:
+	java.awt.Color.<init>(Color.java:382)
+	java.awt.Color.<init>(Color.java:357)
+	julia8.FractalImage.render(FractalImage.java:67)
+	julia8.Main.main(Main.java:29)
+TRACE 300555:
+	java.awt.image.Raster.getPixels(Raster.java:1580)
+	sun.awt.image.SunWritableRaster.getPixels(SunWritableRaster.java:252)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:812)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+TRACE 300478:
+	java.awt.Color.<init>(Color.java:382)
+	java.awt.Color.<init>(Color.java:357)
+	julia8.FractalImage.render(FractalImage.java:59)
+	julia8.Main.main(Main.java:29)
+TRACE 300547:
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:871)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+	com.sun.imageio.plugins.png.PNGImageWriter.write(PNGImageWriter.java:1146)
+	javax.imageio.ImageWriter.write(ImageWriter.java:598)
+TRACE 300559:
+	java.awt.image.SinglePixelPackedSampleModel.getPixels(SinglePixelPackedSampleModel.java:474)
+	java.awt.image.Raster.getPixels(Raster.java:1580)
+	sun.awt.image.SunWritableRaster.getPixels(SunWritableRaster.java:252)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:812)
+TRACE 300552:
+	com.sun.imageio.plugins.png.RowFilter.filterRow(RowFilter.java:79)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:890)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+	com.sun.imageio.plugins.png.PNGImageWriter.write(PNGImageWriter.java:1146)
+TRACE 300528:
+	javax.imageio.stream.FileImageOutputStream.<init>(FileImageOutputStream.java:71)
+	javax.imageio.stream.FileImageOutputStream.<init>(FileImageOutputStream.java:53)
+	com.sun.imageio.spi.FileImageOutputStreamSpi.createOutputStreamInstance(FileImageOutputStreamSpi.java:37)
+	javax.imageio.ImageIO.createImageOutputStream(ImageIO.java:393)
+TRACE 300551:
+	java.awt.image.DataBufferInt.markPixelsExposed(DataBufferInt.java:Unknown line)
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:44)
+	java.awt.image.SinglePixelPackedSampleModel.createDataBuffer(SinglePixelPackedSampleModel.java:220)
+	java.awt.image.Raster.createWritableRaster(Raster.java:935)
+TRACE 300558:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.SinglePixelPackedSampleModel.createDataBuffer(SinglePixelPackedSampleModel.java:220)
+	java.awt.image.Raster.createWritableRaster(Raster.java:935)
+	java.awt.image.BufferedImage.getData(BufferedImage.java:1441)
+TRACE 300553:
+	sun.awt.image.IntegerInterleavedRaster.getDataElements(IntegerInterleavedRaster.java:259)
+	java.awt.image.BufferedImage.getData(BufferedImage.java:1451)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:806)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+TRACE 300477:
+	julia8.FractalImage.render(FractalImage.java:67)
+	julia8.Main.main(Main.java:29)
+TRACE 300534:
+	com.sun.imageio.plugins.png.PNGImageWriterSpi.createWriterInstance(PNGImageWriterSpi.java:109)
+	javax.imageio.spi.ImageWriterSpi.createWriterInstance(ImageWriterSpi.java:331)
+	javax.imageio.ImageIO$ImageWriterIterator.next(ImageIO.java:817)
+	javax.imageio.ImageIO$ImageWriterIterator.next(ImageIO.java:801)
+TRACE 300410:
+	java.nio.DirectByteBuffer.<init>(DirectByteBuffer.java:116)
+	java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:288)
+	apple.awt.OSXSurfaceData.getBufferOfSize(OSXSurfaceData.java:2220)
+	apple.awt.OSXSurfaceData.<init>(OSXSurfaceData.java:60)
+TRACE 300479:
+	java.awt.Color.getRGB(Color.java:590)
+	sun.java2d.SunGraphics2D.validateColor(SunGraphics2D.java:1851)
+	sun.java2d.SunGraphics2D.setColor(SunGraphics2D.java:1871)
+	julia8.FractalImage.render(FractalImage.java:73)
+TRACE 300330:
+	sun.font.FontManager.<clinit>(FontManager.java:71)
+	sun.java2d.SunGraphicsEnvironment.addDirFonts(SunGraphicsEnvironment.java:982)
+	sun.java2d.SunGraphicsEnvironment.registerFontsInDir(SunGraphicsEnvironment.java:862)
+	apple.awt.CGraphicsEnvironment.registerFontsInDir(CGraphicsEnvironment.java:145)
+TRACE 300556:
+	java.lang.System.arraycopy(System.java:Unknown line)
+	sun.awt.image.IntegerInterleavedRaster.setDataElements(IntegerInterleavedRaster.java:425)
+	java.awt.image.BufferedImage.getData(BufferedImage.java:1452)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:806)
+TRACE 300027:
+	java.util.zip.ZipFile.open(ZipFile.java:Unknown line)
+	java.util.zip.ZipFile.<init>(ZipFile.java:128)
+	java.util.jar.JarFile.<init>(JarFile.java:136)
+	java.util.jar.JarFile.<init>(JarFile.java:73)
+TRACE 300336:
+	sun.font.FontManager.initIDs(FontManager.java:Unknown line)
+	sun.font.FontManager.access$000(FontManager.java:45)
+	sun.font.FontManager$1.run(FontManager.java:238)
+	java.security.AccessController.doPrivileged(AccessController.java:Unknown line)
+TRACE 300355:
+	sun.font.FontManager.<clinit>(FontManager.java:3322)
+	sun.java2d.SunGraphicsEnvironment.addDirFonts(SunGraphicsEnvironment.java:982)
+	sun.java2d.SunGraphicsEnvironment.registerFontsInDir(SunGraphicsEnvironment.java:862)
+	apple.awt.CGraphicsEnvironment.registerFontsInDir(CGraphicsEnvironment.java:145)
+TRACE 300423:
+	sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>(GraphicsPrimitiveMgr.java:38)
+	sun.java2d.loops.DrawLine.locate(DrawLine.java:37)
+	sun.java2d.SurfaceData.makeRenderLoops(SurfaceData.java:699)
+	sun.awt.image.BufImgSurfaceData.getSolidLoops(BufImgSurfaceData.java:365)
+TRACE 300425:
+	sun.java2d.loops.GraphicsPrimitiveMgr.initIDs(GraphicsPrimitiveMgr.java:Unknown line)
+	sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>(GraphicsPrimitiveMgr.java:38)
+	sun.java2d.loops.DrawLine.locate(DrawLine.java:37)
+	sun.java2d.SurfaceData.makeRenderLoops(SurfaceData.java:699)
+TRACE 300426:
+	sun.java2d.loops.DrawRect.<clinit>(DrawRect.java:29)
+	sun.java2d.loops.GraphicsPrimitiveMgr.initIDs(GraphicsPrimitiveMgr.java:Unknown line)
+	sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>(GraphicsPrimitiveMgr.java:38)
+	sun.java2d.loops.DrawLine.locate(DrawLine.java:37)
+TRACE 300529:
+	java.lang.Object.hashCode(Object.java:Unknown line)
+	java.util.Hashtable.put(Hashtable.java:399)
+	sun.java2d.Disposer.add(Disposer.java:119)
+	sun.java2d.Disposer.addRecord(Disposer.java:98)
+TRACE 300097:
+	java.lang.Class.forName0(Class.java:Unknown line)
+	java.lang.Class.forName(Class.java:171)
+	java.security.Provider$Service.getImplClass(Provider.java:1260)
+	java.security.Provider$Service.newInstance(Provider.java:1220)
+TRACE 300106:
+	java.lang.Integer$IntegerCache.<clinit>(Integer.java:601)
+	java.lang.Integer.valueOf(Integer.java:622)
+	sun.security.x509.X509CertInfo.<clinit>(X509CertInfo.java:99)
+	sun.security.x509.X509CertImpl.parse(X509CertImpl.java:1731)
+TRACE 300069:
+	sun.security.pkcs.PKCS7.parse(PKCS7.java:136)
+	sun.security.pkcs.PKCS7.parse(PKCS7.java:110)
+	sun.security.pkcs.PKCS7.<init>(PKCS7.java:92)
+	sun.security.util.SignatureFileVerifier.<init>(SignatureFileVerifier.java:78)
+TRACE 300481:
+	julia8.FractalImage.render(FractalImage.java:59)
+	julia8.Main.main(Main.java:29)
+TRACE 300360:
+	sun.awt.FontConfiguration.loadBinary(FontConfiguration.java:238)
+	sun.awt.FontConfiguration.readFontConfigFile(FontConfiguration.java:132)
+	sun.awt.FontConfiguration.<init>(FontConfiguration.java:69)
+	apple.awt.CFontConfiguration.<init>(CFontConfiguration.java:25)
+TRACE 300540:
+	com.sun.imageio.plugins.png.CRC.<clinit>(PNGImageWriter.java:52)
+	com.sun.imageio.plugins.png.ChunkStream.<init>(PNGImageWriter.java:83)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IHDR(PNGImageWriter.java:363)
+	com.sun.imageio.plugins.png.PNGImageWriter.write(PNGImageWriter.java:1123)
+TRACE 300394:
+	sun.java2d.pipe.SpanClipRenderer.initIDs(SpanClipRenderer.java:Unknown line)
+	sun.java2d.pipe.SpanClipRenderer.<clinit>(SpanClipRenderer.java:28)
+	sun.java2d.SurfaceData.<clinit>(SurfaceData.java:363)
+	apple.awt.CGraphicsEnvironment.createGraphics(CGraphicsEnvironment.java:301)
+TRACE 300543:
+	java.util.zip.Deflater.initIDs(Deflater.java:Unknown line)
+	java.util.zip.Deflater.<clinit>(Deflater.java:110)
+	com.sun.imageio.plugins.png.IDATOutputStream.<init>(PNGImageWriter.java:144)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:916)
+TRACE 300193:
+	java.math.BigInteger.mulAdd(BigInteger.java:1906)
+	java.math.BigInteger.montReduce(BigInteger.java:1852)
+	java.math.BigInteger.oddModPow(BigInteger.java:1809)
+	java.math.BigInteger.modPow(BigInteger.java:1571)
+TRACE 300554:
+	java.lang.System.arraycopy(System.java:Unknown line)
+	sun.awt.image.IntegerInterleavedRaster.getDataElements(IntegerInterleavedRaster.java:265)
+	java.awt.image.BufferedImage.getData(BufferedImage.java:1451)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:806)
+TRACE 300557:
+	sun.awt.image.SunWritableRaster.arePixelsExposed(SunWritableRaster.java:Unknown line)
+	sun.awt.image.SunWritableRaster.<init>(SunWritableRaster.java:71)
+	sun.awt.image.IntegerComponentRaster.<init>(IntegerComponentRaster.java:149)
+	sun.awt.image.IntegerInterleavedRaster.<init>(IntegerInterleavedRaster.java:109)
+TRACE 300560:
+	sun.awt.image.IntegerInterleavedRaster.getDataElements(IntegerInterleavedRaster.java:264)
+	java.awt.image.BufferedImage.getData(BufferedImage.java:1451)
+	com.sun.imageio.plugins.png.PNGImageWriter.encodePass(PNGImageWriter.java:806)
+	com.sun.imageio.plugins.png.PNGImageWriter.write_IDAT(PNGImageWriter.java:930)
+TRACE 300208:
+	sun.net.www.protocol.file.Handler.createFileURLConnection(Handler.java:95)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:64)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:55)
+	java.net.URL.openConnection(URL.java:945)
+TRACE 300194:
+	java.math.MutableBigInteger.<init>(MutableBigInteger.java:69)
+	java.math.BigInteger.remainder(BigInteger.java:1350)
+	sun.security.provider.DSA.generateV(DSA.java:377)
+	sun.security.provider.DSA.engineVerify(DSA.java:331)
+TRACE 300563:
+	java.lang.System.arraycopy(System.java:Unknown line)
+	java.io.BufferedOutputStream.write(BufferedOutputStream.java:111)
+	java.io.PrintStream.write(PrintStream.java:430)
+	sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:202)
+TRACE 300436:
+	java.util.Arrays.binarySearch0(Arrays.java:2096)
+	java.util.Arrays.binarySearch(Arrays.java:2043)
+	sun.java2d.loops.GraphicsPrimitiveMgr.locate(GraphicsPrimitiveMgr.java:224)
+	sun.java2d.loops.GraphicsPrimitiveMgr.locatePrim(GraphicsPrimitiveMgr.java:185)
+TRACE 300437:
+	apple.awt.CGraphicsEnvironment.createGraphics(CGraphicsEnvironment.java:304)
+	java.awt.image.BufferedImage.createGraphics(BufferedImage.java:1177)
+	julia8.FractalImage.<init>(FractalImage.java:29)
+	julia8.Main.main(Main.java:13)
+TRACE 300480:
+	sun.java2d.loops.SurfaceType.pixelFor(SurfaceType.java:416)
+	sun.java2d.SurfaceData.pixelFor(SurfaceData.java:789)
+	sun.java2d.SunGraphics2D.validateColor(SunGraphics2D.java:1862)
+	sun.java2d.SunGraphics2D.setColor(SunGraphics2D.java:1871)
+TRACE 300335:
+	java.io.UnixFileSystem.canonicalize0(UnixFileSystem.java:Unknown line)
+	java.io.UnixFileSystem.canonicalize(UnixFileSystem.java:157)
+	java.io.File.getCanonicalPath(File.java:559)
+	java.lang.ClassLoader.loadLibrary0(ClassLoader.java:1779)
+TRACE 300337:
+	java.awt.Font.<clinit>(Font.java:386)
+	sun.font.FontManager.initIDs(FontManager.java:Unknown line)
+	sun.font.FontManager.access$000(FontManager.java:45)
+	sun.font.FontManager$1.run(FontManager.java:238)
+TRACE 300276:
+	java.lang.Class.forName0(Class.java:Unknown line)
+	java.lang.Class.forName(Class.java:171)
+	sun.awt.SunToolkit.initEQ(SunToolkit.java:70)
+	sun.awt.SunToolkit.createNewAppContext(SunToolkit.java:288)
+TRACE 300126:
+	sun.security.x509.CertificateX509Key.<init>(CertificateX509Key.java:58)
+	sun.security.x509.X509CertInfo.parse(X509CertInfo.java:688)
+	sun.security.x509.X509CertInfo.<init>(X509CertInfo.java:152)
+	sun.security.x509.X509CertImpl.parse(X509CertImpl.java:1731)
+TRACE 300314:
+	java.awt.image.Raster.createPackedRaster(Raster.java:455)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+	julia8.FractalImage.<init>(FractalImage.java:28)
+TRACE 300372:
+	sun.java2d.loops.SurfaceType.<clinit>(SurfaceType.java:256)
+	sun.java2d.NullSurfaceData.<init>(NullSurfaceData.java:26)
+	sun.java2d.NullSurfaceData.<clinit>(NullSurfaceData.java:23)
+	sun.java2d.SurfaceData.initIDs(SurfaceData.java:Unknown line)
+TRACE 300498:
+	javax.imageio.spi.IIORegistry.registerStandardSpis(IIORegistry.java:155)
+	javax.imageio.spi.IIORegistry.<init>(IIORegistry.java:120)
+	javax.imageio.spi.IIORegistry.getDefaultInstance(IIORegistry.java:142)
+	javax.imageio.ImageIO.<clinit>(ImageIO.java:48)
+TRACE 300315:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.Raster.createPackedRaster(Raster.java:455)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+TRACE 300159:
+	sun.security.x509.AVAKeyword.<clinit>(AVA.java:1357)
+	sun.security.x509.AVA.toKeyword(AVA.java:655)
+	sun.security.x509.AVA.toRFC2253CanonicalString(AVA.java:857)
+	sun.security.x509.RDN.toRFC2253StringInternal(RDN.java:430)
+TRACE 300053:
+	sun.security.jca.ProviderList.<clinit>(ProviderList.java:53)
+	sun.security.jca.Providers.<clinit>(Providers.java:36)
+	sun.security.util.SignatureFileVerifier.<init>(SignatureFileVerifier.java:77)
+	java.util.jar.JarVerifier.processEntry(JarVerifier.java:267)
+TRACE 300092:
+	sun.security.provider.NativePRNG$1.run(NativePRNG.java:68)
+	java.security.AccessController.doPrivileged(AccessController.java:Unknown line)
+	sun.security.provider.NativePRNG.initIO(NativePRNG.java:57)
+	sun.security.provider.NativePRNG.<clinit>(NativePRNG.java:54)
+TRACE 300086:
+	java.lang.ClassLoader.findBootstrapClass(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.findBootstrapClassOrNull(ClassLoader.java:932)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:297)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:295)
+TRACE 300321:
+	sun.awt.image.IntegerInterleavedRaster.<init>(IntegerInterleavedRaster.java:76)
+	java.awt.image.Raster.createPackedRaster(Raster.java:779)
+	java.awt.image.Raster.createPackedRaster(Raster.java:463)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+TRACE 300015:
+	java.util.zip.ZipFile.getCSize(ZipFile.java:Unknown line)
+	java.util.zip.ZipFile.access$900(ZipFile.java:31)
+	java.util.zip.ZipFile$ZipFileInputStream.<init>(ZipFile.java:443)
+	java.util.zip.ZipFile.getInputStream(ZipFile.java:214)
+TRACE 300455:
+	java.lang.System.arraycopy(System.java:Unknown line)
+	java.util.Arrays.copyOfRange(Arrays.java:3210)
+	java.lang.String.<init>(String.java:215)
+	java.lang.StringBuilder.toString(StringBuilder.java:430)
+TRACE 300033:
+	java.lang.StringCoding.decode(StringCoding.java:167)
+	java.lang.String.<init>(String.java:443)
+	java.util.jar.Attributes.read(Attributes.java:401)
+	java.util.jar.Manifest.read(Manifest.java:180)
+TRACE 300457:
+	java.lang.Object.getClass(Object.java:Unknown line)
+	sun.java2d.SunGraphics2D.setColor(SunGraphics2D.java:1874)
+	julia8.FractalImage.render(FractalImage.java:73)
+	julia8.Main.main(Main.java:29)
+TRACE 300461:
+	sun.java2d.SunGraphics2D.validateColor(SunGraphics2D.java:1862)
+	sun.java2d.SunGraphics2D.setColor(SunGraphics2D.java:1871)
+	julia8.FractalImage.render(FractalImage.java:73)
+	julia8.Main.main(Main.java:29)
+TRACE 300142:
+	java.lang.Class.forName0(Class.java:Unknown line)
+	java.lang.Class.forName(Class.java:171)
+	sun.security.x509.OIDMap$OIDInfo.getClazz(OIDMap.java:190)
+	sun.security.x509.OIDMap.getClass(OIDMap.java:273)
+TRACE 300463:
+	java.util.IdentityHashMap.values(IdentityHashMap.java:1004)
+	java.util.Collections$SynchronizedMap.values(Collections.java:2018)
+	sun.awt.AppContext.getAppContexts(AppContext.java:133)
+	sun.awt.AppContext.stopEventDispatchThreads(AppContext.java:572)
+TRACE 300351:
+	sun.java2d.Disposer.initIDs(Disposer.java:Unknown line)
+	sun.java2d.Disposer.<clinit>(Disposer.java:41)
+	sun.font.StrikeCache.<clinit>(StrikeCache.java:49)
+	sun.font.FontManager$1.run(FontManager.java:240)
+TRACE 300352:
+	sun.java2d.Disposer.<clinit>(Disposer.java:42)
+	sun.font.StrikeCache.<clinit>(StrikeCache.java:49)
+	sun.font.FontManager$1.run(FontManager.java:240)
+	java.security.AccessController.doPrivileged(AccessController.java:Unknown line)
+TRACE 300251:
+	apple.awt.RuntimeOptions.getCurrentOptions(RuntimeOptions.java:390)
+	apple.awt.CToolkit$LookAndFeelChangeListener.<init>(CToolkit.java:33)
+	apple.awt.CToolkit.<clinit>(CToolkit.java:46)
+	java.lang.ClassLoader$NativeLibrary.load(ClassLoader.java:Unknown line)
+TRACE 300354:
+	sun.font.StrikeCache.<clinit>(StrikeCache.java:134)
+	sun.font.FontManager$1.run(FontManager.java:240)
+	java.security.AccessController.doPrivileged(AccessController.java:Unknown line)
+	sun.font.FontManager.<clinit>(FontManager.java:227)
+TRACE 300421:
+	sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>(GraphicsPrimitiveMgr.java:38)
+	sun.java2d.loops.DrawLine.locate(DrawLine.java:37)
+	sun.java2d.SurfaceData.makeRenderLoops(SurfaceData.java:699)
+	sun.awt.image.BufImgSurfaceData.getSolidLoops(BufImgSurfaceData.java:365)
+TRACE 300522:
+	java.util.Arrays.copyOf(Arrays.java:2786)
+	java.lang.StringCoding.safeTrim(StringCoding.java:64)
+	java.lang.StringCoding.access$300(StringCoding.java:34)
+	java.lang.StringCoding$StringEncoder.encode(StringCoding.java:251)
+CPU SAMPLES BEGIN (total = 3151) Tue May 20 12:57:22 2014
+rank   self  accum   count trace method
+   1 85,31% 85,31%    2688 300458 sun.java2d.loops.DrawLine.DrawLine
+   2  5,27% 90,57%     166 300550 java.util.zip.Deflater.deflateBytes
+   3  1,59% 92,16%      50 300548 com.sun.imageio.plugins.png.PNGImageWriter.encodePass
+   4  1,36% 93,53%      43 300549 java.awt.image.SinglePixelPackedSampleModel.getPixels
+   5  0,83% 94,35%      26 300459 julia8.FractalImage.render
+   6  0,76% 95,11%      24 300328 apple.awt.CGraphicsEnvironment.loadNativeDirFonts
+   7  0,63% 95,75%      20 300546 java.awt.image.SinglePixelPackedSampleModel.getPixels
+   8  0,60% 96,35%      19 300229 java.lang.ClassLoader$NativeLibrary.load
+   9  0,19% 96,54%       6 300545 java.lang.System.arraycopy
+  10  0,19% 96,73%       6 300460 java.awt.Color.<init>
+  11  0,16% 96,89%       5 300555 java.awt.image.Raster.getPixels
+  12  0,16% 97,05%       5 300478 java.awt.Color.<init>
+  13  0,16% 97,21%       5 300547 com.sun.imageio.plugins.png.PNGImageWriter.encodePass
+  14  0,16% 97,37%       5 300559 java.awt.image.SinglePixelPackedSampleModel.getPixels
+  15  0,13% 97,49%       4 300552 com.sun.imageio.plugins.png.RowFilter.filterRow
+  16  0,13% 97,62%       4 300528 javax.imageio.stream.FileImageOutputStream.<init>
+  17  0,13% 97,75%       4 300551 java.awt.image.DataBufferInt.markPixelsExposed
+  18  0,10% 97,84%       3 300558 java.awt.image.DataBufferInt.<init>
+  19  0,10% 97,94%       3 300553 sun.awt.image.IntegerInterleavedRaster.getDataElements
+  20  0,06% 98,00%       2 300477 julia8.FractalImage.render
+  21  0,06% 98,06%       2 300534 com.sun.imageio.plugins.png.PNGImageWriterSpi.createWriterInstance
+  22  0,06% 98,13%       2 300410 java.nio.DirectByteBuffer.<init>
+  23  0,06% 98,19%       2 300479 java.awt.Color.getRGB
+  24  0,06% 98,25%       2 300330 sun.font.FontManager.<clinit>
+  25  0,06% 98,32%       2 300556 java.lang.System.arraycopy
+  26  0,06% 98,38%       2 300027 java.util.zip.ZipFile.open
+  27  0,06% 98,44%       2 300336 sun.font.FontManager.initIDs
+  28  0,03% 98,48%       1 300355 sun.font.FontManager.<clinit>
+  29  0,03% 98,51%       1 300423 sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>
+  30  0,03% 98,54%       1 300425 sun.java2d.loops.GraphicsPrimitiveMgr.initIDs
+  31  0,03% 98,57%       1 300426 sun.java2d.loops.DrawRect.<clinit>
+  32  0,03% 98,60%       1 300529 java.lang.Object.hashCode
+  33  0,03% 98,64%       1 300097 java.lang.Class.forName0
+  34  0,03% 98,67%       1 300106 java.lang.Integer$IntegerCache.<clinit>
+  35  0,03% 98,70%       1 300069 sun.security.pkcs.PKCS7.parse
+  36  0,03% 98,73%       1 300481 julia8.FractalImage.render
+  37  0,03% 98,76%       1 300360 sun.awt.FontConfiguration.loadBinary
+  38  0,03% 98,79%       1 300540 com.sun.imageio.plugins.png.CRC.<clinit>
+  39  0,03% 98,83%       1 300394 sun.java2d.pipe.SpanClipRenderer.initIDs
+  40  0,03% 98,86%       1 300543 java.util.zip.Deflater.initIDs
+  41  0,03% 98,89%       1 300193 java.math.BigInteger.mulAdd
+  42  0,03% 98,92%       1 300554 java.lang.System.arraycopy
+  43  0,03% 98,95%       1 300557 sun.awt.image.SunWritableRaster.arePixelsExposed
+  44  0,03% 98,98%       1 300560 sun.awt.image.IntegerInterleavedRaster.getDataElements
+  45  0,03% 99,02%       1 300208 sun.net.www.protocol.file.Handler.createFileURLConnection
+  46  0,03% 99,05%       1 300194 java.math.MutableBigInteger.<init>
+  47  0,03% 99,08%       1 300563 java.lang.System.arraycopy
+  48  0,03% 99,11%       1 300436 java.util.Arrays.binarySearch0
+  49  0,03% 99,14%       1 300437 apple.awt.CGraphicsEnvironment.createGraphics
+  50  0,03% 99,17%       1 300480 sun.java2d.loops.SurfaceType.pixelFor
+  51  0,03% 99,21%       1 300335 java.io.UnixFileSystem.canonicalize0
+  52  0,03% 99,24%       1 300337 java.awt.Font.<clinit>
+  53  0,03% 99,27%       1 300276 java.lang.Class.forName0
+  54  0,03% 99,30%       1 300126 sun.security.x509.CertificateX509Key.<init>
+  55  0,03% 99,33%       1 300314 java.awt.image.Raster.createPackedRaster
+  56  0,03% 99,37%       1 300372 sun.java2d.loops.SurfaceType.<clinit>
+  57  0,03% 99,40%       1 300498 javax.imageio.spi.IIORegistry.registerStandardSpis
+  58  0,03% 99,43%       1 300315 java.awt.image.DataBufferInt.<init>
+  59  0,03% 99,46%       1 300159 sun.security.x509.AVAKeyword.<clinit>
+  60  0,03% 99,49%       1 300053 sun.security.jca.ProviderList.<clinit>
+  61  0,03% 99,52%       1 300092 sun.security.provider.NativePRNG$1.run
+  62  0,03% 99,56%       1 300086 java.lang.ClassLoader.findBootstrapClass
+  63  0,03% 99,59%       1 300321 sun.awt.image.IntegerInterleavedRaster.<init>
+  64  0,03% 99,62%       1 300015 java.util.zip.ZipFile.getCSize
+  65  0,03% 99,65%       1 300455 java.lang.System.arraycopy
+  66  0,03% 99,68%       1 300033 java.lang.StringCoding.decode
+  67  0,03% 99,71%       1 300457 java.lang.Object.getClass
+  68  0,03% 99,75%       1 300461 sun.java2d.SunGraphics2D.validateColor
+  69  0,03% 99,78%       1 300142 java.lang.Class.forName0
+  70  0,03% 99,81%       1 300463 java.util.IdentityHashMap.values
+  71  0,03% 99,84%       1 300351 sun.java2d.Disposer.initIDs
+  72  0,03% 99,87%       1 300352 sun.java2d.Disposer.<clinit>
+  73  0,03% 99,90%       1 300251 apple.awt.RuntimeOptions.getCurrentOptions
+  74  0,03% 99,94%       1 300354 sun.font.StrikeCache.<clinit>
+  75  0,03% 99,97%       1 300421 sun.java2d.loops.GraphicsPrimitiveMgr.<clinit>
+  76  0,03% 100,00%       1 300522 java.util.Arrays.copyOf
+CPU SAMPLES END

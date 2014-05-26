@@ -10,7 +10,7 @@ public class TaskManager {
         return;
     }
 
-    public void setNumberOfTasksTotal(int numberOfTasksTotal) {
+    public synchronized void setNumberOfTasksTotal(int numberOfTasksTotal) {
         this.numberOfTasksTotal = numberOfTasksTotal;
     }
 
@@ -19,7 +19,7 @@ public class TaskManager {
         this.numberOfTasksDone = 0;
     }
 
-    public void didOneTask() {
+    public synchronized void didOneTask() {
         this.numberOfTasksDone++;
     }
 
@@ -49,7 +49,11 @@ public class TaskManager {
     }
 
     public long getETA() {
-        return (long) (this.getElapsedTime() * this.getNumberOfTasksLeft() / this.getNumberOfTasksDone());
+        if (this.getNumberOfTasksDone() > 0) {
+            return (long) (this.getElapsedTime() * this.getNumberOfTasksLeft() / this.getNumberOfTasksDone());
+        } else {
+            return Long.MAX_VALUE;
+        }
     }
 
     public String getHumanReadableETA() {

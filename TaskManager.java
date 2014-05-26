@@ -7,7 +7,7 @@ public class TaskManager {
     private int numberOfTasksDone;
 
     public TaskManager() {
-        this.startTime = System.currentTimeMillis();
+        return;
     }
 
     public void setNumberOfTasksTotal(int numberOfTasksTotal) {
@@ -49,10 +49,7 @@ public class TaskManager {
     }
 
     public long getETA() {
-        long elapsedTime = this.getElapsedTime();
-        int numberOfTasksLeft = this.getNumberOfTasksLeft();
-        int numberOfTasksDone = this.getNumberOfTasksDone();
-        return (int) (elapsedTime * numberOfTasksLeft / (numberOfTasksDone));
+        return (long) (this.getElapsedTime() * this.getNumberOfTasksLeft() / this.getNumberOfTasksDone());
     }
 
     public String getHumanReadableETA() {

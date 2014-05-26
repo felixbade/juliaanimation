@@ -12,6 +12,7 @@ public class Main {
         manager.setNumberOfTasksTotal (totalFrames);
         FractalImage image = new FractalImage();
         image.setTotalFrameNumber(totalFrames);
+        manager.start();
        
         while (manager.isNotDone()) {
             int currentFrameNumber = manager.getNumberOfTasksDone() + 1;

@@ -62,13 +62,14 @@ public class FractalImage {
                     double xrs = xr * xr;
                     double xis = xi * xi;
                     if (xrs + xis > 4) {
-                        int gradient = 255;//255 - i * 255 / MAX_ITERATIONS;
+                        int gradient = 255;
                         pixelColor = new Color(gradient, gradient, gradient);
                         break;
                     }
                     xi = 2 * xr * xi + ci;
                     xr = xrs - xis + cr;
                 }
+                // TODO: these two lines use 85% of the cpu
                 this.graphics.setColor(pixelColor);
                 this.graphics.drawLine(x, y, x, y);
             }
